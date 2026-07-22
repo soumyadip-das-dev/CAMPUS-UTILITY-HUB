@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Utility Hub</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <aside class="sidebar">
+      <h2>Campus Hub</h2>
+
+      <ul>
+        <li>Attendance Tracker</li>
+        <li>CGPA Calculator</li>
+        <li>Number Converter</li>
+        <li>Password Analyzer</li>
+        <li>Quiz System</li>
+        <li>Expense Splitter</li>
+        <li>Theme Generator</li>
+        <li>Typing Tester</li>
+      </ul>
+
+      <button id="darkBtn">Toggle Dark Mode</button>
+    </aside>
+
+    <main class="main">
+
+      <!-- Attendance -->
+      <div class="card">
+        <h3>Smart Attendance Tracker</h3>
+
+        <input type="text" id="studentName" placeholder="Enter Student Name">
+
+        <select id="attendanceStatus">
+          <option value="Present">Present</option>
+          <option value="Absent">Absent</option>
+          <option value="Late">Late</option>
+        </select>
+
+        <button id="addAttendance">Add Record</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Attendance %</th>
+            </tr>
+          </thead>
+
+          <tbody id="attendanceTable"></tbody>
+        </table>
+      </div>
+
+      <!-- CGPA -->
+      <div class="card">
+        <h3>CGPA Calculator</h3>
+
+        <input type="text" id="subjectName" placeholder="Subject Name">
+
+        <input type="number" id="credits" placeholder="Credits">
+
+        <select id="grade">
+          <option>O</option>
+          <option>A+</option>
+          <option>A</option>
+          <option>B+</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+
+        <button id="addSubject">Add Subject</button>
+
+        <div id="cgpaResult"></div>
+      </div>
+
+      <!-- Number Converter -->
+      <div class="card">
+        <h3>Binary & Number Converter</h3>
+
+        <input type="number" id="decimalInput" placeholder="Decimal Number">
+
+        <button id="convertBtn">Convert</button>
+
+        <div id="converterResult"></div>
+      </div>
+
+      <!-- Password Analyzer -->
+      <div class="card">
+        <h3>Password Strength Analyzer</h3>
+
+        <input type="password" id="passwordInput" placeholder="Enter Password">
+
+        <div class="meter" id="meter"></div>
+
+        <h4 id="strengthText"></h4>
+      </div>
+
+      <!-- Quiz -->
+      <div class="card">
+        <h3>Dynamic Quiz System</h3>
+
+        <h4 id="quizQuestion"></h4>
+
+        <div class="quiz-options" id="quizOptions"></div>
+
+        <button id="nextQuestion">Next</button>
+
+        <h4 id="quizScore"></h4>
+      </div>
+
+      <!-- Expense -->
+      <div class="card">
+        <h3>Expense Splitter</h3>
+
+        <input type="text" id="personName" placeholder="Person Name">
+
+        <input type="number" id="expenseAmount" placeholder="Expense Amount">
+
+        <button id="addExpense">Add Expense</button>
+
+        <div id="expenseResult"></div>
+      </div>
+
+      <!-- Theme Generator -->
+      <div class="card">
+        <h3>Theme Generator</h3>
+
+        <label>Background Color</label>
+        <input type="color" id="bgColor">
+
+        <label>Font Size</label>
+        <input type="range" min="14" max="25" id="fontSize">
+
+        <label>Card Radius</label>
+        <input type="range" min="5" max="40" id="radius">
+
+        <label>Spacing</label>
+        <input type="range" min="10" max="40" id="spacing">
+      </div>
+
+      <!-- Typing Tester -->
+      <div class="card">
+        <h3>Typing Speed Tester</h3>
+
+        <div class="typing-box" id="typingParagraph"></div>
+
+        <textarea id="typingInput" placeholder="Start typing here..."></textarea>
+
+        <div id="typingResult"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
