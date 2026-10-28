@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automated Test Suite | Campus Utility Hub 2.0</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <style>
+    body { padding: 30px 20px; max-width: 900px; margin: 0 auto; background: var(--bg-main); }
+    .suite-card { margin-bottom: 24px; }
+    .test-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border-color); font-size: 13px; }
+    .test-row:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <div>
+      <span class="brand-badge">Automated QA Suite</span>
+      <h1 style="font-size: 24px; font-weight: 800;">Campus Utility Hub 2.0 Test Runner</h1>
+      <p class="text-muted" style="font-size: 13px;">Unit test verification for business logic, scoring formulas, and edge cases.</p>
+    </div>
+    <a href="../index.html" class="btn btn-secondary btn-sm">← Back to Application</a>
+  </div>
+
+  <!-- Overall Summary Banner -->
+  <div class="grid-4" id="testSummaryKpi" style="margin-bottom: 24px;">
+    <div class="stat-card">
+      <div class="stat-label">Total Test Suites</div>
+      <div class="stat-value" id="kpiTotalSuites">4</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Assertions</div>
+      <div class="stat-value" id="kpiTotalAssertions">-</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Passed Assertions</div>
+      <div class="stat-value" id="kpiPassedAssertions" style="color: var(--success);">-</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Failed Assertions</div>
+      <div class="stat-value" id="kpiFailedAssertions">-</div>
+    </div>
+  </div>
+
+  <div id="testOutputContainer">
+    <div class="empty-state">Running test suites...</div>
+  </div>
+
+  <script type="module">
+    import { runUtilitiesTests } from './utilities.test.js';
+    import { runAssessmentTests } from './assessments.test.js';
+    import { runAnalyticsTests } from './analytics.test.js';
+    import { runOperationsTests } from './operations.test.js';
+
+    const startTime = performance.now();
+
+    const suites = [
+      { name: 'Suite 1: Student Utilities (Attendance, CGPA, Converter, Password)', fn: runUtilitiesTests },
+      { name: 'Suite 2: Module A - Programming Assessments & Scoring', fn: runAssessmentTests },
+      { name: 'Suite 3: Module B - Analytics Metrics & RFC 4180 CSV Escaping', fn: runAnalyticsTests },
+      { name: 'Suite 4: Module C - Academic Operations & Overdue Tracking', fn: runOperationsTests }
+    ];
+
+    let totalTests = 0;
+    let totalPassed = 0;
+    let totalFailed = 0;
+
+    const container = document.getElementById('testOutputContainer');
+    container.innerHTML = '';
+
+    suites.forEach(suite => {
+      const suiteResults = suite.fn();
+      totalTests += suiteResults.length;
+
+      const card = document.createElement('div');
+      card.className = 'card suite-card';
+
+      const passedInSuite = suiteResults.filter(r => r.passed).length;
+      totalPassed += passedInSuite;
+      const failedInSuite = suiteResults.length - passedInSuite;
+      totalFailed += failedInSuite;
+
+      card.innerHTML = `
+        <div class="card-header" style="background: var(--bg-subtle);">
+          <strong style="font-size: 14px;">${suite.name}</strong>
+          <span class="badge ${failedInSuite === 0 ? 'badge-success' : 'badge-danger'}">
+            ${passedInSuite} / ${suiteResults.length} Passed
+          </span>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          ${suiteResults.map(res => `
+            <div class="test-row">
+              <span style="font-weight: 500;">${res.testName}</span>
+              <span class="badge ${res.passed ? 'badge-success' : 'badge-danger'}">
+                ${res.passed ? '✓ PASS' : '✗ FAIL'}
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+    const elapsedMs = Math.round(performance.now() - startTime);
+
+    document.getElementById('kpiTotalAssertions').textContent = totalTests;
+    document.getElementById('kpiPassedAssertions').textContent = totalPassed;
+    const failEl = document.getElementById('kpiFailedAssertions');
+    failEl.textContent = totalFailed;
+    failEl.style.color = totalFailed === 0 ? 'var(--success)' : 'var(--danger)';
+
+    console.info(`[Test Runner] Executed ${totalTests} assertions in ${elapsedMs}ms. ${totalPassed} passed, ${totalFailed} failed.`);
+  </script>
+</body>
+</html>
