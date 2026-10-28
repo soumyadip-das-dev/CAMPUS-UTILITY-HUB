@@ -1,164 +1,380 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Campus Utility Hub</title>
+  <title>Campus Utility Hub 2.0 | Academic Operations & Assessment Platform</title>
+  <meta name="description" content="A clean, modular student learning, programming assessment, and academic operations platform." />
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
 </head>
 <body>
 
-  <div class="container">
+  <div class="app-container">
 
-    <aside class="sidebar">
-      <h2>Campus Hub</h2>
+    <!-- Left Navigation Sidebar -->
+    <aside class="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-header">
+        <span class="brand-badge">Version 2.0</span>
+        <h1>Campus Hub</h1>
+        <p class="sidebar-subtitle">Academic Operations & Assessments</p>
+      </div>
 
-      <ul>
-        <li>Attendance Tracker</li>
-        <li>CGPA Calculator</li>
-        <li>Number Converter</li>
-        <li>Password Analyzer</li>
-        <li>Quiz System</li>
-        <li>Expense Splitter</li>
-        <li>Theme Generator</li>
-        <li>Typing Tester</li>
-      </ul>
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Modules</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button class="nav-button active" data-tab="tab-utilities" id="nav-utilities">
+              <span>Academic Utilities</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-button" data-tab="tab-assessments" id="nav-assessments">
+              <span>Programming Assessments</span>
+              <span class="nav-badge" id="sidebarAssessmentBadge">Module A</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-button" data-tab="tab-analytics" id="nav-analytics">
+              <span>Analytics & MIS</span>
+              <span class="nav-badge">Module B</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-button" data-tab="tab-operations" id="nav-operations">
+              <span>Academic Operations</span>
+              <span class="nav-badge">Module C</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
 
-      <button id="darkBtn">Toggle Dark Mode</button>
+      <div class="sidebar-footer">
+        <button class="btn btn-secondary btn-sm" id="sidebarDarkToggle" style="width: 100%;">
+          Toggle Dark Mode
+        </button>
+        <button class="btn btn-outline btn-sm" id="resetDemoDataBtn" style="width: 100%; border-color: rgba(255,255,255,0.2); color: #cbd5e1;">
+          Reset Demo Data
+        </button>
+      </div>
     </aside>
 
-    <main class="main">
+    <!-- Main Application View Area -->
+    <main class="app-main">
 
-      <!-- Attendance -->
-      <div class="card">
-        <h3>Smart Attendance Tracker</h3>
+      <!-- Top Operational Header -->
+      <header class="top-navbar">
+        <div class="nav-title-group">
+          <h2 id="currentViewTitle">Academic Utilities & Calculators</h2>
+          <p id="currentViewDesc">Smart tools for daily student productivity, attendance tracking, SGPA projection, and typing metrics.</p>
+        </div>
 
-        <input type="text" id="studentName" placeholder="Enter Student Name">
+        <div class="top-actions">
+          <span class="fictional-notice" title="Single-user client-side demo environment">Demo Mode: Browser LocalStorage</span>
+        </div>
+      </header>
 
-        <select id="attendanceStatus">
-          <option value="Present">Present</option>
-          <option value="Absent">Absent</option>
-          <option value="Late">Late</option>
-        </select>
+      <!-- TAB 1: ACADEMIC UTILITIES -->
+      <section class="tab-content active" id="tab-utilities" aria-label="Student Utilities Section">
+        
+        <div class="grid-2">
 
-        <button id="addAttendance">Add Record</button>
+          <!-- 1. Smart Attendance Tracker -->
+          <div class="card" id="card-attendance">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Smart Attendance Tracker</h3>
+                <p class="card-subtitle">Session history with 75% minimum university threshold indicator</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                  <label class="form-label" for="studentNameInput">Student Name</label>
+                  <input type="text" class="form-control" id="studentNameInput" placeholder="e.g. Soumyadip Das" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="attendedSessionsInput">Attended</label>
+                  <input type="number" class="form-control" id="attendedSessionsInput" placeholder="e.g. 26" min="0" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="totalSessionsInput">Total Sessions</label>
+                  <input type="number" class="form-control" id="totalSessionsInput" placeholder="e.g. 30" min="1" />
+                </div>
+              </div>
+              <button class="btn btn-primary" id="addAttendanceBtn" style="margin-top: 4px;">Record Attendance</button>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Attendance %</th>
-            </tr>
-          </thead>
+              <div class="table-responsive" style="margin-top: 16px;">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Sessions</th>
+                      <th>Percentage</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="attendanceTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
-          <tbody id="attendanceTable"></tbody>
-        </table>
-      </div>
+          <!-- 2. CGPA & SGPA Calculator -->
+          <div class="card" id="card-cgpa">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">CGPA & SGPA Calculator</h3>
+                <p class="card-subtitle">Weighted credit evaluation using official grade points (O:10 down to C:5)</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                  <label class="form-label" for="subjectNameInput">Course Title</label>
+                  <input type="text" class="form-control" id="subjectNameInput" placeholder="e.g. Algorithms" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="subjectCreditsInput">Credits</label>
+                  <input type="number" class="form-control" id="subjectCreditsInput" placeholder="e.g. 4" min="1" max="10" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="subjectGradeInput">Grade</label>
+                  <select class="form-select" id="subjectGradeInput">
+                    <option value="O">O (10)</option>
+                    <option value="A+">A+ (9)</option>
+                    <option value="A">A (8)</option>
+                    <option value="B+">B+ (7)</option>
+                    <option value="B">B (6)</option>
+                    <option value="C">C (5)</option>
+                    <option value="F">F (0)</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="addSubjectBtn" style="margin-top: 4px;">Add Course</button>
 
-      <!-- CGPA -->
-      <div class="card">
-        <h3>CGPA Calculator</h3>
+              <div class="table-responsive" style="margin-top: 16px;">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Course</th>
+                      <th>Credits</th>
+                      <th>Grade Points</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="subjectTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer" id="cgpaResultDisplay">
+              <!-- Result calculated dynamically -->
+            </div>
+          </div>
 
-        <input type="text" id="subjectName" placeholder="Subject Name">
+          <!-- 3. Number Converter -->
+          <div class="card" id="card-converter">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Number Systems Converter</h3>
+                <p class="card-subtitle">Base conversions between Decimal, Binary, Octal, and Hexadecimal</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                  <label class="form-label" for="numberConverterInput">Input Number</label>
+                  <input type="text" class="form-control" id="numberConverterInput" placeholder="e.g. 42" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="numberConverterMode">Conversion Mode</label>
+                  <select class="form-select" id="numberConverterMode">
+                    <option value="decToBin">Decimal to Bin / Oct / Hex</option>
+                    <option value="binToDec">Binary to Decimal</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="convertNumberBtn">Execute Conversion</button>
 
-        <input type="number" id="credits" placeholder="Credits">
+              <div id="numberConverterResult" style="margin-top: 14px;"></div>
+            </div>
+          </div>
 
-        <select id="grade">
-          <option>O</option>
-          <option>A+</option>
-          <option>A</option>
-          <option>B+</option>
-          <option>B</option>
-          <option>C</option>
-        </select>
+          <!-- 4. Password Strength Analyzer -->
+          <div class="card" id="card-password">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Password Security Analyzer</h3>
+                <p class="card-subtitle">Real-time entropy and complexity inspection</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label" for="passwordAnalyzerInput">Test Password</label>
+                <input type="password" class="form-control" id="passwordAnalyzerInput" placeholder="Type password to evaluate..." />
+              </div>
 
-        <button id="addSubject">Add Subject</button>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="passwordMeter" style="width: 0%;"></div>
+              </div>
 
-        <div id="cgpaResult"></div>
-      </div>
+              <div id="passwordStrengthLabel" style="font-weight: 600; font-size: 13px; margin: 8px 0;">Enter password to inspect</div>
 
-      <!-- Number Converter -->
-      <div class="card">
-        <h3>Binary & Number Converter</h3>
+              <div style="font-size: 12px; display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
+                <div id="pwd-chk-len" data-label="Minimum 8 characters">✗ Minimum 8 characters</div>
+                <div id="pwd-chk-upper" data-label="Contains uppercase letter [A-Z]">✗ Contains uppercase letter [A-Z]</div>
+                <div id="pwd-chk-lower" data-label="Contains lowercase letter [a-z]">✗ Contains lowercase letter [a-z]</div>
+                <div id="pwd-chk-num" data-label="Contains number [0-9]">✗ Contains number [0-9]</div>
+                <div id="pwd-chk-special" data-label="Contains symbol (!@#$%^&*)">✗ Contains symbol (!@#$%^&*)</div>
+              </div>
+            </div>
+          </div>
 
-        <input type="number" id="decimalInput" placeholder="Decimal Number">
+          <!-- 5. Interactive Concept Quiz -->
+          <div class="card" id="card-quiz">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Interactive Concept Quiz</h3>
+                <p class="card-subtitle">Quick assessment check on computational fundamentals</p>
+              </div>
+              <span class="badge badge-neutral" id="conceptQuizProgress">Question 1 of 3</span>
+            </div>
+            <div class="card-body">
+              <h4 id="conceptQuizQuestion" style="font-size: 15px; margin-bottom: 14px;">Loading question...</h4>
 
-        <button id="convertBtn">Convert</button>
+              <div id="conceptQuizOptions"></div>
 
-        <div id="converterResult"></div>
-      </div>
+              <div id="conceptQuizFeedback" style="margin-top: 12px;"></div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary btn-sm" id="quizNextBtn" disabled>Next Question</button>
+              <button class="btn btn-secondary btn-sm" id="quizRetakeBtn" style="display: none;">Retake Quiz</button>
+            </div>
+          </div>
 
-      <!-- Password Analyzer -->
-      <div class="card">
-        <h3>Password Strength Analyzer</h3>
+          <!-- 6. Expense Splitter -->
+          <div class="card" id="card-expense">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Shared Expense Splitter</h3>
+                <p class="card-subtitle">Itemized tracking with per-person equal share breakdown</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="expensePersonInput">Payer Name</label>
+                  <input type="text" class="form-control" id="expensePersonInput" placeholder="e.g. Soumyadip" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="expenseDescInput">Purpose</label>
+                  <input type="text" class="form-control" id="expenseDescInput" placeholder="e.g. Lab Kit" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="expenseAmountInput">Amount (₹)</label>
+                  <input type="number" class="form-control" id="expenseAmountInput" placeholder="e.g. 500" min="1" />
+                </div>
+              </div>
+              <button class="btn btn-primary" id="addExpenseBtn">Log Expense</button>
 
-        <input type="password" id="passwordInput" placeholder="Enter Password">
+              <div class="table-responsive" style="margin-top: 16px;">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Paid By</th>
+                      <th>Purpose</th>
+                      <th>Amount</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="expenseTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer" id="expenseSummaryDisplay">
+              <!-- Summary breakdown -->
+            </div>
+          </div>
 
-        <div class="meter" id="meter"></div>
+          <!-- 7. Theme Customizer -->
+          <div class="card" id="card-theme">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">UI Theme & Display Settings</h3>
+                <p class="card-subtitle">Customizable design tokens persisted in LocalStorage</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label" for="themeFontSizeSlider">Base Font Size (13px - 18px)</label>
+                <input type="range" class="form-control" id="themeFontSizeSlider" min="13" max="18" value="15" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="themeRadiusSlider">Card Corner Radius (4px - 16px)</label>
+                <input type="range" class="form-control" id="themeRadiusSlider" min="4" max="16" value="8" />
+              </div>
+              <button class="btn btn-secondary btn-sm" id="resetThemeBtn" style="margin-top: 8px;">Reset Theme Defaults</button>
+            </div>
+          </div>
 
-        <h4 id="strengthText"></h4>
-      </div>
+          <!-- 8. Typing Speed Tester -->
+          <div class="card" id="card-typing">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Typing Speed Tester</h3>
+                <p class="card-subtitle">Accurate WPM and character accuracy benchmark</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="typingTargetDisplay" class="code-block" style="margin-bottom: 12px; font-size: 13px;"></div>
 
-      <!-- Quiz -->
-      <div class="card">
-        <h3>Dynamic Quiz System</h3>
+              <div class="form-group">
+                <textarea class="form-control" id="typingInputArea" rows="3" placeholder="Start typing the passage above to begin timer..."></textarea>
+              </div>
 
-        <h4 id="quizQuestion"></h4>
+              <div id="typingStatsDisplay"></div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-secondary btn-sm" id="typingResetBtn">New Passage / Restart</button>
+            </div>
+          </div>
 
-        <div class="quiz-options" id="quizOptions"></div>
+        </div>
 
-        <button id="nextQuestion">Next</button>
+      </section>
 
-        <h4 id="quizScore"></h4>
-      </div>
+      <!-- TAB 2: PROGRAMMING ASSESSMENTS (Module A) -->
+      <section class="tab-content" id="tab-assessments" aria-label="Programming Assessment Management">
+        <div id="assessmentsMount">
+          <!-- Populated in Phase 3 -->
+        </div>
+      </section>
 
-      <!-- Expense -->
-      <div class="card">
-        <h3>Expense Splitter</h3>
+      <!-- TAB 3: ASSESSMENT ANALYTICS & MIS (Module B) -->
+      <section class="tab-content" id="tab-analytics" aria-label="Assessment Analytics and MIS">
+        <div id="analyticsMount">
+          <!-- Populated in Phase 4 -->
+        </div>
+      </section>
 
-        <input type="text" id="personName" placeholder="Person Name">
-
-        <input type="number" id="expenseAmount" placeholder="Expense Amount">
-
-        <button id="addExpense">Add Expense</button>
-
-        <div id="expenseResult"></div>
-      </div>
-
-      <!-- Theme Generator -->
-      <div class="card">
-        <h3>Theme Generator</h3>
-
-        <label>Background Color</label>
-        <input type="color" id="bgColor">
-
-        <label>Font Size</label>
-        <input type="range" min="14" max="25" id="fontSize">
-
-        <label>Card Radius</label>
-        <input type="range" min="5" max="40" id="radius">
-
-        <label>Spacing</label>
-        <input type="range" min="10" max="40" id="spacing">
-      </div>
-
-      <!-- Typing Tester -->
-      <div class="card">
-        <h3>Typing Speed Tester</h3>
-
-        <div class="typing-box" id="typingParagraph"></div>
-
-        <textarea id="typingInput" placeholder="Start typing here..."></textarea>
-
-        <div id="typingResult"></div>
-      </div>
+      <!-- TAB 4: ACADEMIC OPERATIONS & SUPPORT TRACKER (Module C) -->
+      <section class="tab-content" id="tab-operations" aria-label="Academic Operations and Support Tracker">
+        <div id="operationsMount">
+          <!-- Populated in Phase 5 -->
+        </div>
+      </section>
 
     </main>
+
   </div>
 
-  <script src="script.js"></script>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Application Bootstrap -->
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
